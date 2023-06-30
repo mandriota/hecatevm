@@ -2,8 +2,6 @@
 
 // #include "debug.h"
 
-#define CP ((1 << 12) - 1)
-
 void m_init(struct Machine *__restrict mac) {
   mac->row = 0;
   mac->col = 0;
