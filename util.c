@@ -1,5 +1,4 @@
 #include "util.h"
-#include <limits.h>
 
 void fatal(const char *msg) {
   if (errno != 0)
@@ -56,7 +55,7 @@ inline void print_num(long long n) {
   }
   if (n < 0)
     putchar('-');
-  for (long long i = 10000000000; i; i /= 10)
+  for (long long i = 1000000000000000000; i; i /= 10)
     if (n / i != 0)
       putchar_unlocked(n / i % 10 + '0');
 }

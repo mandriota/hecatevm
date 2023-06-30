@@ -1,5 +1,4 @@
 #include "mac.h"
-#include "util.h"
 
 int main(int argc, char *argv[]) {
   if (argc != 2)

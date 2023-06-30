@@ -1,7 +1,10 @@
 #ifndef MAC_H
 #define MAC_H
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
+
+#include "util.h"
 
 enum OPCODE {
   SETR_IMM, // sets row to immidiate value

@@ -1,8 +1,6 @@
-#include <stdio.h>
-
-#include "debug.h"
 #include "mac.h"
-#include "util.h"
+
+// #include "debug.h"
 
 #define CP ((1 << 12) - 1)
 
