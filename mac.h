@@ -1,26 +1,25 @@
 #ifndef MAC_H
 #define MAC_H
-#include <string.h>
 
 #include "util.h"
 
 enum OPCODE {
-  SETR_IMM, // sets row to immidiate value
-  SETC_IMM, // sets colon to immidiate value
-  SETT,     // sets temp register
+  SETR_IMM, // sets row value from immediate
+  SETC_IMM, // sets col value from immediate
+  SETT,     // sets register as temp
+  TSET,     // sets temp register value from register
+  TSETL,    // TSET if flag_lo is set
+  TSETE,    // TSET if flag_eq is set
+  TSETG,    // TSET if flag_gr is set
+  TSET_IMM, // sets temp register value from immediate
 
-  TSET,     // sets register as temp
-  TSETL,    // sets temp register value from other register if flag l is set
-  TSETE,    // sets temp register value from other register if flag e is set
-  TSETG,    // sets temp register value from other register if flag g is set
-  TSET_IMM, // sets temp register to immidiate value
+  TCMP, // compares temp register with register and sets flags
 
-  TCMP, // compares temp register with other value
-
-  TADD, // adds other register to temp register
-  TSUB, // subs other register from temp register
-  TMUL, // multiplis temp register by other register
-  TDIV, // dividies temp register by other register
+  TADD,              // adds other register to temp register
+  TSUB,              // subtracts register from temp register
+  TMUL,              // multiplies temp register by register
+  TDIV,              // divides temp register by register
+  opcode_reserved_0, // reserved
 
   TGET, // gets temp register value from stdin
   TPUT, // puts temp register value to stdout
@@ -38,7 +37,7 @@ struct Machine {
   unsigned flag_gr : 1;
 };
 
-void m_init(struct Machine *__restrict mac);
+void mac_init(struct Machine *restrict mac);
 
 enum EXECUTION_ERR {
   EERR_INVALID_INSTRUCTION = 1,
@@ -46,7 +45,7 @@ enum EXECUTION_ERR {
   EERR_DIVISION_BY_ZERO,
 };
 
-enum EXECUTION_ERR m_execute(struct Machine *__restrict mac, const char *text,
-                             off_t sz);
+enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
+                               off_t sz);
 
 #endif

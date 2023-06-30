@@ -2,15 +2,15 @@
 
 // #include "debug.h"
 
-void m_init(struct Machine *__restrict mac) {
+void mac_init(struct Machine *restrict mac) {
   mac->row = 0;
   mac->col = 0;
   mac->tp = 0;
   memset(mac->regs, 0, sizeof(mac->regs));
 }
 
-enum EXECUTION_ERR m_execute(struct Machine *__restrict mac, const char *text,
-                             off_t sz) {
+enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
+                               off_t sz) {
   if (mac == NULL)
     fatal("Machine should not be NULL");
 

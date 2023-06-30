@@ -2,21 +2,21 @@
 Tiny register-based VM written in C.
 
 ## Instructions
-| code | name     |
-|:----:|:---------|
-| 0x0  | SETR_IMM |
-| 0x1  | SETC_IMM |
-| 0x2  | SETT     |
-| 0x3  | TSET     |
-| 0x4  | TSETL    |
-| 0x5  | TSETE    |
-| 0x6  | TSETG    |
-| 0x7  | TSET_IMM |
-| 0x8  | TCMP     |
-| 0x9  | TADD     |
-| 0xA  | TSUB     |
-| 0xB  | TMUL     |
-| 0xC  | TDIV     |
-| 0xD  | TGET     |
-| 0xE  | TPUT     |
-| 0xF  |          |
+| code | name     | description                                               |
+|:----:|:---------|:----------------------------------------------------------|
+| 0x0  | SETR_IMM | sets row value from immediate                             |
+| 0x1  | SETC_IMM | sets col value from immediate                             |
+| 0x2  | SETT     | sets register as temp                                     |
+| 0x3  | TSET     | sets temp register value from register                    |
+| 0x4  | TSETL    | TSET if flag_lo is set                                    |
+| 0x5  | TSETE    | TSET if flag_eq is set                                    |
+| 0x6  | TSETG    | TSET if flag_gr is set                                    |
+| 0x7  | TSET_IMM | sets temp register value from immediate                   |
+| 0x8  | TCMP     | compares temp register with register and sets flags       |
+| 0x9  | TADD     | adds register to temp register                            |
+| 0xA  | TSUB     | subtracts register from temp register                     |
+| 0xB  | TMUL     | multiplies temp register by register                      |
+| 0xC  | TDIV     | divides temp register by register                         |
+| 0xD  | TGET     | gets temp register value from stdin                       |
+| 0xE  | TPUT     | puts temp register value to stdout                        |
+| 0xF  | reserved |                                                           |

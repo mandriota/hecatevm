@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
 
   struct Machine mac;
 
-  m_init(&mac);
+  mac_init(&mac);
 
-  enum EXECUTION_ERR eerr = m_execute(&mac, text, sz);
+  enum EXECUTION_ERR eerr = mac_execute(&mac, text, sz);
   return 0;
 }
