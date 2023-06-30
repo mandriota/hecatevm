@@ -17,6 +17,6 @@ Tiny register-based VM written in C.
 | 0xA  | TSUB     | subtracts register from temp register                     |
 | 0xB  | TMUL     | multiplies temp register by register                      |
 | 0xC  | TDIV     | divides temp register by register                         |
-| 0xD  | TGET     | gets temp register value from stdin                       |
-| 0xE  | TPUT     | puts temp register value to stdout                        |
-| 0xF  | reserved |                                                           |
+| 0xD  |          | reserved                                                  |
+| 0xE  | TGET     | gets temp register value from stdin                       |
+| 0xF  | TPUT     | puts temp register value to stdout                        |

@@ -4,37 +4,44 @@
 #include "util.h"
 
 enum OPCODE {
-  SETR_IMM, // sets row value from immediate
-  SETC_IMM, // sets col value from immediate
-  SETT,     // sets register as temp
-  TSET,     // sets temp register value from register
-  TSETL,    // TSET if flag_lo is set
-  TSETE,    // TSET if flag_eq is set
-  TSETG,    // TSET if flag_gr is set
-  TSET_IMM, // sets temp register value from immediate
+  OP_SETR_IMM, // sets row value from immediate
+  OP_SETC_IMM, // sets col value from immediate
+  OP_SETT,     // sets register as temp
+  OP_TSET,     // sets temp register value from register
+  OP_TSETL,    // TSET if flag_lo is set
+  OP_TSETE,    // TSET if flag_eq is set
+  OP_TSETG,    // TSET if flag_gr is set
+  OP_TSET_IMM, // sets temp register value from immediate
 
-  TCMP, // compares temp register with register and sets flags
+  OP_TCMP, // compares temp register with register and sets flags
 
-  TADD,              // adds other register to temp register
-  TSUB,              // subtracts register from temp register
-  TMUL,              // multiplies temp register by register
-  TDIV,              // divides temp register by register
-  opcode_reserved_0, // reserved
+  OP_TADD,     // adds other register to temp register
+  OP_TSUB,     // subtracts register from temp register
+  OP_TMUL,     // multiplies temp register by register
+  OP_TDIV,     // divides temp register by register
+  OP_reserved, // reserved
 
-  TGET, // gets temp register value from stdin
-  TPUT, // puts temp register value to stdout
+  OP_TGET, // gets temp register value from stdin
+  OP_TPUT, // puts temp register value to stdout
 };
 
 #define OPCODE_MASK 0xF
 
 struct Machine {
-  long long regs[1 << 12];
+  union {
+    long long all[1 << 12];
+    long long cp;
+  } regs;
+
+  unsigned tp : 12;
   unsigned row : 4;
   unsigned col : 4;
-  unsigned tp : 12;
-  unsigned flag_lo : 1;
-  unsigned flag_eq : 1;
-  unsigned flag_gr : 1;
+
+  struct {
+    unsigned lo : 1;
+    unsigned eq : 1;
+    unsigned gr : 1;
+  } flags;
 };
 
 void mac_init(struct Machine *restrict mac);

@@ -6,7 +6,7 @@ const char *opcodes_stringify[] = {"SETR_IMM", "SETC_IMM", "SETT",  "TSET",
                                    "TCMP",     "TADD",     "TSUB",  "TMUL",
                                    "TDIV",     "TGET",     "TPUT",  ""};
 
-#define m_print_state(mac)                                                     \
+#define mac_print_state(mac)                                                   \
   printf("============= STATE =============\n");                               \
   printf("flags: lo=%d; eq=%d; gr=%d;\n", mac->flag_lo, mac->flag_eq,          \
          mac->flag_gr);                                                        \

@@ -6,7 +6,7 @@ void mac_init(struct Machine *restrict mac) {
   mac->row = 0;
   mac->col = 0;
   mac->tp = 0;
-  memset(mac->regs, 0, sizeof(mac->regs));
+  memset(mac->regs.all, 0, sizeof(mac->regs));
 }
 
 enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
@@ -15,7 +15,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
     fatal("Machine should not be NULL");
 
 #ifdef DEBUG_H
-  m_print_state(mac);
+  mac_print_state(mac);
 #endif
 
   if (sz == 0)
@@ -23,83 +23,85 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
 
   int i = 0;
 
-  while (mac->regs[0] >= 0 && mac->regs[0] < sz && i < 10) {
-    unsigned char arg = (unsigned char)text[mac->regs[0]] >> 4;
+  while (mac->regs.cp >= 0 && mac->regs.cp < sz && i < 10) {
+    unsigned char arg = (unsigned char)text[mac->regs.cp] >> 4;
 
 #ifdef DEBUG_H
     printf("CALLING\t%s\t%d\n",
-           opcodes_stringify[text[mac->regs[0]] & OPCODE_MASK], arg);
+           opcodes_stringify[text[mac->regs.cp] & OPCODE_MASK], arg);
 #endif
 
-    switch (text[mac->regs[0]] & OPCODE_MASK) {
-    case SETR_IMM:
+    switch (text[mac->regs.cp] & OPCODE_MASK) {
+    case OP_SETR_IMM:
       mac->row = arg;
       break;
-    case SETC_IMM:
+    case OP_SETC_IMM:
       mac->col = arg;
       break;
-    case SETT:
+    case OP_SETT:
       mac->tp = 0xFF * mac->row + 0xF * mac->col + arg;
       break;
-    case TSET:
-      mac->regs[mac->tp] = mac->regs[arg];
+    case OP_TSET:
+      mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case TSETL:
-      if (mac->flag_lo)
-        mac->regs[mac->tp] = mac->regs[arg];
+    case OP_TSETL:
+      if (mac->flags.lo)
+        mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case TSETE:
-      if (mac->flag_eq)
-        mac->regs[mac->tp] = mac->regs[arg];
+    case OP_TSETE:
+      if (mac->flags.eq)
+        mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case TSETG:
-      if (mac->flag_gr)
-        mac->regs[mac->tp] = mac->regs[arg];
+    case OP_TSETG:
+      if (mac->flags.gr)
+        mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case TSET_IMM:
-      mac->regs[mac->tp] = arg;
+    case OP_TSET_IMM:
+      mac->regs.all[mac->tp] = arg;
       break;
-    case TCMP:
-      mac->flag_lo = mac->regs[mac->tp] < arg;
-      mac->flag_eq = mac->regs[mac->tp] == arg;
-      mac->flag_gr = mac->regs[mac->tp] > arg;
+    case OP_TCMP:
+      mac->flags.lo = mac->regs.all[mac->tp] < arg;
+      mac->flags.eq = mac->regs.all[mac->tp] == arg;
+      mac->flags.gr = mac->regs.all[mac->tp] > arg;
       break;
-    case TADD:
-      mac->regs[mac->tp] += mac->regs[arg];
+    case OP_TADD:
+      mac->regs.all[mac->tp] += mac->regs.all[arg];
       break;
-    case TSUB:
-      mac->regs[mac->tp] -= mac->regs[arg];
+    case OP_TSUB:
+      mac->regs.all[mac->tp] -= mac->regs.all[arg];
       break;
-    case TMUL:
-      mac->regs[mac->tp] *= mac->regs[arg];
+    case OP_TMUL:
+      mac->regs.all[mac->tp] *= mac->regs.all[arg];
       break;
-    case TDIV:;
-      long long v = mac->regs[mac->tp] -= mac->regs[arg];
-      if (v == 0)
+    case OP_TDIV:;
+      long long denom = mac->regs.all[arg];
+      if (denom == 0)
         return EERR_DIVISION_BY_ZERO;
-      mac->regs[mac->tp] /= v;
+      mac->regs.all[mac->tp] /= denom;
       break;
-    case TGET:
-      scanf("%lld", &mac->regs[mac->tp]);
+    case OP_reserved:
+      return EERR_INVALID_INSTRUCTION;
+    case OP_TGET:
+      fwrite("input: ", 1, 7, stdout);
+      scanf("%lld", &mac->regs.all[mac->tp]);
       break;
-    case TPUT:
+    case OP_TPUT:
       fwrite("output: ", 1, 8, stdout);
-      print_num(mac->regs[mac->tp]);
+      print_num(mac->regs.all[mac->tp]);
       putchar_unlocked('\n');
       break;
     default:
       return EERR_INVALID_INSTRUCTION;
-      break;
     }
-    ++mac->regs[0];
+    ++mac->regs.cp;
     ++i;
 
 #ifdef DEBUG_H
-    m_print_state(mac);
+    mac_print_state(mac);
 #endif
   }
 
-  if (mac->regs[0] != sz)
+  if (mac->regs.cp != sz)
     return EERR_INVALID_TEXT_ADDRESS;
 
   return 0;

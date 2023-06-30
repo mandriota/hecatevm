@@ -12,5 +12,6 @@ int main(int argc, char *argv[]) {
   mac_init(&mac);
 
   enum EXECUTION_ERR eerr = mac_execute(&mac, text, sz);
+  // TODO: add execution error handling
   return 0;
 }
