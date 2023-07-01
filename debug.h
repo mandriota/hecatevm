@@ -7,13 +7,14 @@ const char *opcodes_stringify[] = {"SETR_IMM", "SETC_IMM", "SETT",  "TSET",
                                    "TDIV",     "TGET",     "TPUT",  ""};
 
 #define mac_print_state(mac)                                                   \
-  printf("============= STATE =============\n");                               \
-  printf("flags: lo=%d; eq=%d; gr=%d;\n", mac->flags.lo, mac->flags.eq,        \
-         mac->flags.gr);                                                       \
-  printf("row=%d\n", mac->row);                                                \
-  printf("col=%d\n", mac->col);                                                \
-  printf("temp register ptr: %d\n", mac->tp);                                  \
-  printf("current pos: %lld\n", mac->regs.cp);                                 \
-  printf("=================================\n");
+  printf("============= STATE =============\n"                                 \
+         "flags: lo=%d; eq=%d; gr=%d;\n"                                       \
+         "row=%d\n"                                                            \
+         "col=%d\n"                                                            \
+         "temp register pointer (tp): %d\n"                                    \
+         "code pointer (cp): %lld\n"                                           \
+         "=================================\n",                                \
+         mac->flags.lo, mac->flags.eq, mac->flags.gr, mac->row, mac->col,      \
+         mac->tp, mac->regs.cp);
 
 #endif

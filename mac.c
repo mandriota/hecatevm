@@ -1,7 +1,7 @@
 #include "mac.h"
 #include "util.h"
 
-#include "debug.h"
+// #include "debug.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
@@ -97,13 +97,10 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
     }
 
 #ifdef DEBUG_H
+    mac_print_state(mac);
     ++i;
     if (i == 0)
       break;
-#endif
-
-#ifdef DEBUG_H
-    mac_print_state(mac);
 #endif
   }
 
