@@ -1,6 +1,5 @@
 #include "mac.h"
 #include "util.h"
-#include <string.h>
 
 // #include "debug.h"
 
