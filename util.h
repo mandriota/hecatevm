@@ -12,7 +12,7 @@
 
 void fatal(const char *msg);
 
-off_t map4read(const char **__restrict dst, const char *name);
+off_t map4read(const char **restrict dst, const char *name);
 
 long long scan_num();
 

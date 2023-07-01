@@ -15,7 +15,7 @@ void fatal(const char *msg) {
 
 struct stat stat_info;
 
-off_t map4read(const char **__restrict dst, const char *name) {
+off_t map4read(const char **restrict dst, const char *name) {
   int fd = open(name, O_RDONLY, 0);
   if (fd < 0)
     fatal("while openning file descriptor");
