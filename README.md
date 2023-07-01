@@ -1,5 +1,5 @@
 # HecateVM
-Tiny register-based VM written in C.
+Tiny register-based bytecode VM written in C.
 
 ## Instructions
 | code | name     | description                                               |

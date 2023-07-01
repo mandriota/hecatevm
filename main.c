@@ -12,6 +12,16 @@ int main(int argc, char *argv[]) {
   mac_init(&mac);
 
   enum EXECUTION_ERR eerr = mac_execute(&mac, text, sz);
-  // TODO: add execution error handling
+  switch (eerr) {
+  case EERR_INVALID_INSTRUCTION:
+    fatal("invalid instruction");
+    break;
+  case EERR_INVALID_TEXT_ADDRESS:
+    fatal("invalid text address");
+    break;
+  case EERR_DIVISION_BY_ZERO:
+    fatal("division by zero");
+    break;
+  }
   return 0;
 }

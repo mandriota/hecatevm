@@ -1,10 +1,14 @@
 #include "util.h"
+#include <stdio.h>
 
 void fatal(const char *msg) {
   if (errno != 0)
     perror(msg);
-  else
-    fprintf(stderr, "error: %s\n", msg);
+  else {
+    fwrite("error: ", 1, 7, stdout);
+    fwrite(msg, 1, strlen(msg), stdout);
+    putchar('\n');
+  }
 
   exit(errno);
 }

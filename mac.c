@@ -1,18 +1,15 @@
 #include "mac.h"
+#include "util.h"
+#include <string.h>
 
 // #include "debug.h"
 
-void mac_init(struct Machine *restrict mac) {
-  mac->row = 0;
-  mac->col = 0;
-  mac->tp = 0;
-  memset(mac->regs.all, 0, sizeof(mac->regs));
-}
+void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
 enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
                                off_t sz) {
   if (mac == NULL)
-    fatal("Machine should not be NULL");
+    fatal("mac should not be NULL");
 
 #ifdef DEBUG_H
   mac_print_state(mac);
@@ -20,6 +17,9 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
 
   if (sz == 0)
     return 0;
+
+  if (text == NULL)
+    fatal("sz is not zero, but text is NULL");
 
   int i = 0;
 
@@ -83,7 +83,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       return EERR_INVALID_INSTRUCTION;
     case OP_TGET:
       fwrite("input: ", 1, 7, stdout);
-      scanf("%lld", &mac->regs.all[mac->tp]);
+      mac->regs.all[mac->tp] = scan_num();
       break;
     case OP_TPUT:
       fwrite("output: ", 1, 8, stdout);
