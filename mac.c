@@ -1,7 +1,7 @@
 #include "mac.h"
 #include "util.h"
 
-// #include "debug.h"
+#include "debug.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
@@ -25,14 +25,15 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
 #endif
 
   while (mac->regs.cp >= 0 && mac->regs.cp < sz) {
+    unsigned char op = text[mac->regs.cp] & OPCODE_MASK;
     unsigned char arg = (unsigned char)text[mac->regs.cp] >> 4;
+    ++mac->regs.cp;
 
 #ifdef DEBUG_H
-    printf("CALLING\t%s\t%d\n",
-           opcodes_stringify[text[mac->regs.cp] & OPCODE_MASK], arg);
+    printf("CALLING\t%s\t%d\n", opcodes_stringify[op], arg);
 #endif
 
-    switch (text[mac->regs.cp] & OPCODE_MASK) {
+    switch (op) {
     case OP_SETR_IMM:
       mac->row = arg;
       break;
@@ -94,7 +95,6 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
     default:
       return EERR_INVALID_INSTRUCTION;
     }
-    ++mac->regs.cp;
 
 #ifdef DEBUG_H
     ++i;
