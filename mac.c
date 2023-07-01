@@ -21,9 +21,11 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
   if (text == NULL)
     fatal("sz is not zero, but text is NULL");
 
-  int i = 0;
+#ifdef DEBUG_H
+  int i = -10000; // limit number of iterations to 10000
+#endif
 
-  while (mac->regs.cp >= 0 && mac->regs.cp < sz && i < 10) {
+  while (mac->regs.cp >= 0 && mac->regs.cp < sz) {
     unsigned char arg = (unsigned char)text[mac->regs.cp] >> 4;
 
 #ifdef DEBUG_H
@@ -94,7 +96,12 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       return EERR_INVALID_INSTRUCTION;
     }
     ++mac->regs.cp;
+
+#ifdef DEBUG_H
     ++i;
+    if (i == 0)
+      break;
+#endif
 
 #ifdef DEBUG_H
     mac_print_state(mac);
