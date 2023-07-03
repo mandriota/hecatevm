@@ -1,8 +1,6 @@
 #include "mac.h"
 #include "util.h"
 
-#include <string.h>
-
 // #include "debug.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
