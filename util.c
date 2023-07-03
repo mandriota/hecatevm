@@ -34,6 +34,7 @@ off_t map4read(const char **restrict dst, const char *name) {
 }
 
 #define iswhitespace(c) (c == ' ' || c == '\n' || c == '\r' || c == '\t')
+#define isdigit(c) (c >= '0' && c <= '9')
 
 long long scan_num() {
   long long n = 0;
@@ -42,10 +43,9 @@ long long scan_num() {
     first_cc = getchar_unlocked();
   while (iswhitespace(first_cc));
 
-  n = first_cc != '-' ? first_cc - '0' : 0;
+  n = isdigit(first_cc) ? first_cc - '0' : 0;
 
-  for (int cc = getchar_unlocked(); cc >= '0' && cc <= '9';
-       cc = getchar_unlocked())
+  for (int cc = getchar_unlocked(); isdigit(cc); cc = getchar_unlocked())
     n = n * 10 + cc - '0';
 
   n = first_cc == '-' ? -n : n;
