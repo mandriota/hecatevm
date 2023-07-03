@@ -65,8 +65,10 @@ ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
     return p;
   }
 
-  if (n < 0)
+  if (n < 0) {
     dst[p++] = '-';
+    n = -n;
+  }
 
   for (long long i = 1000000000000000000; i; i /= 10) {
     if (n / i != 0) {
