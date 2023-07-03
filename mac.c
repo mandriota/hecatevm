@@ -1,6 +1,8 @@
 #include "mac.h"
 #include "util.h"
 
+#include <string.h>
+
 // #include "debug.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
@@ -23,6 +25,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
 #ifdef DEBUG_H
   int i = -10000; // limit number of iterations to 10000
 #endif
+  char tput_obuf[20 + 9] = "output: ";
 
   while (mac->regs.cp >= 0 && mac->regs.cp < sz) {
     unsigned char op = text[mac->regs.cp] & OPCODE_MASK;
@@ -87,10 +90,11 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       fwrite("input: ", 1, 7, stdout);
       mac->regs.all[mac->tp] = scan_num();
       break;
-    case OP_TPUT:
-      fwrite("output: ", 1, 8, stdout);
-      print_num(mac->regs.all[mac->tp]);
-      putchar_unlocked('\n');
+    case OP_TPUT:;
+      ssize_t sz = to_string(tput_obuf + 8, sizeof tput_obuf - 9,
+                             mac->regs.all[mac->tp]);
+      tput_obuf[8 + sz] = '\n';
+      fwrite(tput_obuf, 1, sz + 9, stdout);
       break;
     default:
       return EERR_INVALID_INSTRUCTION;

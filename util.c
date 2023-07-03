@@ -35,7 +35,7 @@ off_t map4read(const char **restrict dst, const char *name) {
 
 #define iswhitespace(c) (c == ' ' || c == '\n' || c == '\r' || c == '\t')
 
-inline long long scan_num() {
+long long scan_num() {
   long long n = 0;
   int first_cc;
   do
@@ -52,14 +52,30 @@ inline long long scan_num() {
   return n;
 }
 
-inline void print_num(long long n) {
+ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
+  if (dst == NULL)
+    fatal("dst must not be NULL");
+  if (dst_sz < 2)
+    fatal("dst size must be at least 2 byte");
+
+  size_t p = 0;
+
   if (n == 0) {
-    putchar_unlocked('0');
-    return;
+    dst[p++] = '0';
+    return p;
   }
+
   if (n < 0)
-    putchar('-');
-  for (long long i = 1000000000000000000; i; i /= 10)
-    if (n / i != 0)
-      putchar_unlocked(n / i % 10 + '0');
+    dst[p++] = '-';
+
+  for (long long i = 1000000000000000000; i; i /= 10) {
+    if (n / i != 0) {
+      if (p < dst_sz)
+        dst[p++] = n / i % 10 + '0';
+      else
+        fatal("dst is too small");
+    }
+  }
+
+  return p;
 }

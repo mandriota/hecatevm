@@ -16,6 +16,8 @@ off_t map4read(const char **restrict dst, const char *name);
 
 long long scan_num();
 
-void print_num(long long n);
+ssize_t to_string(char *restrict dst, size_t dst_sz, long long n);
+
+long long hsum(const char *s, size_t sz);
 
 #endif
