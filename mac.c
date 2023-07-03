@@ -25,7 +25,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
 #ifdef DEBUG_H
   int i = -10000; // limit number of iterations to 10000
 #endif
-  char tput_obuf[20 + 9] = "output: ";
+  char tput_obuf[9 + 20] = "output: ";
 
   while (mac->regs.cp >= 0 && mac->regs.cp < sz) {
     unsigned char op = text[mac->regs.cp] & OPCODE_MASK;
