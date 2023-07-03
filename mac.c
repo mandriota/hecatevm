@@ -79,7 +79,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       mac->regs.all[mac->tp] *= mac->regs.all[arg];
       break;
     case OP_TDIV:;
-      long long denom = mac->regs.all[arg];
+      const long long denom = mac->regs.all[arg];
       if (denom == 0)
         return EERR_DIVISION_BY_ZERO;
       mac->regs.all[mac->tp] /= denom;
@@ -91,8 +91,8 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       mac->regs.all[mac->tp] = scan_num();
       break;
     case OP_TPUT:;
-      ssize_t sz = to_string(tput_obuf + 8, sizeof tput_obuf - 9,
-                             mac->regs.all[mac->tp]);
+      const ssize_t sz = to_string(tput_obuf + 8, sizeof tput_obuf - 9,
+                                   mac->regs.all[mac->tp]);
       tput_obuf[8 + sz] = '\n';
       fwrite(tput_obuf, 1, sz + 9, stdout);
       break;
