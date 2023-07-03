@@ -1,7 +1,7 @@
 #ifndef MAC_H
 #define MAC_H
 
-#include "util.h"
+#include <sys/types.h>
 
 enum OPCODE {
   OP_SETR_IMM, // sets row value from immediate
