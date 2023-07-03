@@ -58,7 +58,7 @@ ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
   if (dst_sz < 2)
     fatal("dst size must be at least 2 byte");
 
-  size_t p = 0;
+  ssize_t p = 0;
 
   if (n == 0) {
     dst[p++] = '0';
