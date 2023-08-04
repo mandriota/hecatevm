@@ -9,7 +9,7 @@
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
-enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
+enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text,
                                off_t sz) {
   if (mac == NULL)
     fatal("mac should not be NULL");
@@ -83,11 +83,11 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
     case OP_TDIV:;
       const long long denom = mac->regs.all[arg];
       if (denom == 0)
-        return EERR_DIVISION_BY_ZERO;
+        return ER_ERR_DIVISION_BY_ZERO;
       mac->regs.all[mac->tp] /= denom;
       break;
     case OP_reserved:
-      return EERR_INVALID_INSTRUCTION;
+      return ER_ERR_INVALID_INSTRUCTION;
     case OP_TGET:
       fwrite("input: ", 1, 7, stdout);
       mac->regs.all[mac->tp] = scan_num();
@@ -99,7 +99,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
       fwrite(tput_obuf, 1, sz + 9, stdout);
       break;
     default:
-      return EERR_INVALID_INSTRUCTION;
+      return ER_ERR_INVALID_INSTRUCTION;
     }
 
 #ifdef DEBUG_H
@@ -111,7 +111,7 @@ enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
   }
 
   if (mac->regs.cp != sz)
-    return EERR_INVALID_TEXT_ADDRESS;
+    return ER_ERR_INVALID_TEXT_ADDRESS;
 
   return 0;
 }

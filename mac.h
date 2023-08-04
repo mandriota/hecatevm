@@ -46,13 +46,14 @@ struct Machine {
 
 void mac_init(struct Machine *restrict mac);
 
-enum EXECUTION_ERR {
-  EERR_INVALID_INSTRUCTION = 1,
-  EERR_INVALID_TEXT_ADDRESS,
-  EERR_DIVISION_BY_ZERO,
+enum EXECUTION_RESULT {
+  ER_OK,
+  ER_ERR_INVALID_INSTRUCTION,
+  ER_ERR_INVALID_TEXT_ADDRESS,
+  ER_ERR_DIVISION_BY_ZERO,
 };
 
-enum EXECUTION_ERR mac_execute(struct Machine *restrict mac, const char *text,
+enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text,
                                off_t sz);
 
 #endif

@@ -14,15 +14,17 @@ int main(int argc, char *argv[]) {
 
   mac_init(&mac);
 
-  enum EXECUTION_ERR eerr = mac_execute(&mac, text, sz);
-  switch (eerr) {
-  case EERR_INVALID_INSTRUCTION:
+  enum EXECUTION_RESULT er = mac_execute(&mac, text, sz);
+  switch (er) {
+  case ER_OK:
+	break;
+  case ER_ERR_INVALID_INSTRUCTION:
     fatal("invalid instruction");
     break;
-  case EERR_INVALID_TEXT_ADDRESS:
+  case ER_ERR_INVALID_TEXT_ADDRESS:
     fatal("invalid text address");
     break;
-  case EERR_DIVISION_BY_ZERO:
+  case ER_ERR_DIVISION_BY_ZERO:
     fatal("division by zero");
     break;
   }
