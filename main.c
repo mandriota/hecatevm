@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <sys/mman.h>
 
 #include "mac.h"
 #include "util.h"
@@ -27,6 +28,11 @@ int main(int argc, char *argv[]) {
   case ER_ERR_DIVISION_BY_ZERO:
     fatal("division by zero");
     break;
+  }
+
+  if (munmap((void *) text, sz)) {
+	fatal("error while munmapping");
+	return 1;
   }
   return 0;
 }

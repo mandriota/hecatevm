@@ -79,12 +79,12 @@ ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
   }
 
   for (long long i = 1000000000000000000; i; i /= 10) {
-    if (n / i != 0) {
-      if (p < dst_sz)
-        dst[p++] = n / i % 10 + '0';
-      else
-        fatal("dst is too small");
-    }
+    if (n / i == 0) continue;
+	
+    if (p < dst_sz)
+      dst[p++] = n / i % 10 + '0';
+    else
+      fatal("dst is too small");
   }
 
   return p;
