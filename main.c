@@ -21,18 +21,13 @@ int main(int argc, char *argv[]) {
 	break;
   case ER_ERR_INVALID_INSTRUCTION:
     fatal("invalid instruction");
-    break;
   case ER_ERR_INVALID_TEXT_ADDRESS:
     fatal("invalid text address");
-    break;
   case ER_ERR_DIVISION_BY_ZERO:
     fatal("division by zero");
-    break;
   }
 
-  if (munmap((void *) text, sz)) {
+  if (munmap((void *) text, sz))
 	fatal("error while munmapping");
-	return 1;
-  }
   return 0;
 }
