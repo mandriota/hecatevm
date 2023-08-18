@@ -8,6 +8,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <assert.h>
 
 void fatal(const char *msg) {
   if (errno != 0)
@@ -61,10 +62,8 @@ long long scan_num() {
 }
 
 ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
-  if (dst == NULL)
-    fatal("dst must not be NULL");
-  if (dst_sz < 2)
-    fatal("dst size must be at least 2 byte");
+  assert(dst && "dst must not be NULL");
+  assert(dst_sz >= 2 && "dst size must be at least 2 byte");
 
   ssize_t p = 0;
 

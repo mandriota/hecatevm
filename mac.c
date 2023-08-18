@@ -2,18 +2,16 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 #include "util.h"
-
-// #include "debug.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
 enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text,
                                off_t sz) {
-  if (mac == NULL)
-    fatal("mac should not be NULL");
-
+  assert(mac && "mac should not be NULL");
+  
 #ifdef DEBUG_H
   mac_print_state(mac);
 #endif
@@ -21,9 +19,8 @@ enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text
   if (sz == 0)
     return 0;
 
-  if (text == NULL)
-    fatal("sz is not zero, but text is NULL");
-
+  assert(text && "sz is not zero, but text is NULL");
+  
 #ifdef DEBUG_H
   int i = -10000; // limit number of iterations to 10000
 #endif
