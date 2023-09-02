@@ -1,10 +1,22 @@
+// Copyright 2023 Mark Mandriota
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 #include "mac.h"
+#include "util.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-
-#include "util.h"
 
 void mac_init(struct Machine *restrict mac) { memset(mac, 0, sizeof(*mac)); }
 
@@ -48,15 +60,15 @@ enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text
     case OP_TSET:
       mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case OP_TSETL:
+    case OP_TSET_L:
       if (mac->flags.lo)
         mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case OP_TSETE:
+    case OP_TSET_E:
       if (mac->flags.eq)
         mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
-    case OP_TSETG:
+    case OP_TSET_G:
       if (mac->flags.gr)
         mac->regs.all[mac->tp] = mac->regs.all[arg];
       break;
@@ -64,9 +76,9 @@ enum EXECUTION_RESULT mac_execute(struct Machine *restrict mac, const char *text
       mac->regs.all[mac->tp] = arg;
       break;
     case OP_TCMP:
-      mac->flags.lo = mac->regs.all[mac->tp] < arg;
-      mac->flags.eq = mac->regs.all[mac->tp] == arg;
-      mac->flags.gr = mac->regs.all[mac->tp] > arg;
+      mac->flags.lo = mac->regs.all[mac->tp] < mac->regs.all[arg];
+      mac->flags.eq = mac->regs.all[mac->tp] == mac->regs.all[arg];
+      mac->flags.gr = mac->regs.all[mac->tp] > mac->regs.all[arg];
       break;
     case OP_TADD:
       mac->regs.all[mac->tp] += mac->regs.all[arg];

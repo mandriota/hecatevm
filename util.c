@@ -1,14 +1,27 @@
+// Copyright 2023 Mark Mandriota
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 #include "util.h"
-#include <stdio.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/errno.h>
-#include <sys/fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
 #include <unistd.h>
 #include <assert.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/errno.h>
+#include <sys/fcntl.h>
 
 void fatal(const char *msg) {
   if (errno != 0)
@@ -22,9 +35,9 @@ void fatal(const char *msg) {
   exit(errno);
 }
 
-struct stat stat_info;
-
-off_t map4read(const char **restrict dst, const char *name) {
+off_t map4read(char **restrict dst, const char *name) {
+  static struct stat stat_info;
+  
   int fd = open(name, O_RDONLY, 0);
   if (fd < 0)
     fatal("while openning file descriptor");
@@ -41,9 +54,6 @@ off_t map4read(const char **restrict dst, const char *name) {
 
   return fsz;
 }
-
-#define iswhitespace(c) (c == ' ' || c == '\n' || c == '\r' || c == '\t')
-#define isdigit(c) (c >= '0' && c <= '9')
 
 long long scan_num() {
   long long n = 0;

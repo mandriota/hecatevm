@@ -11,29 +11,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef ASM_H
+#define ASM_H
 
-#include <sys/types.h>
+#include "util.h"
 
-#define whitespaces ' ', '\n', '\r', '\t'
-#define iswhitespace(c) (c == ' ' || c == '\n' || c == '\r' || c == '\t')
-#define isdigit(c) (c >= '0' && c <= '9')
+#include <stdio.h>
 
-struct String {
-  char * data;
-  size_t len;
-  size_t cap;
+struct Parser {
+  struct String page;
+  char word[16];
+  FILE * src;
+  size_t ptr;
+  size_t row;
+  size_t col;
 };
 
-void fatal(const char *msg);
+enum PARSING_RESULT {
+  PR_ERR_EOF = -3,
+  PR_ERR_INVALID_NAME,
+  PR_ERR_INVALID_ARG,
+};
 
-off_t map4read(char **restrict dst, const char *name);
-
-long long scan_num();
-
-ssize_t to_string(char *restrict dst, size_t dst_sz, long long n);
-
-long long hsum(const char *s, size_t sz);
+enum PARSING_RESULT next_opcode(struct Parser *restrict p);
 
 #endif

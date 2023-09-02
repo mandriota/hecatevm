@@ -1,3 +1,16 @@
+// Copyright 2023 Mark Mandriota
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 #ifndef MAC_H
 #define MAC_H
 
@@ -8,9 +21,9 @@ enum OPCODE {
   OP_SETC_IMM, // sets col value from immediate
   OP_SETT,     // sets register as temp
   OP_TSET,     // sets temp register value from register
-  OP_TSETL,    // TSET if flag_lo is set
-  OP_TSETE,    // TSET if flag_eq is set
-  OP_TSETG,    // TSET if flag_gr is set
+  OP_TSET_L,    // TSET if flag_lo is set
+  OP_TSET_E,    // TSET if flag_eq is set
+  OP_TSET_G,    // TSET if flag_gr is set
   OP_TSET_IMM, // sets temp register value from immediate
 
   OP_TCMP, // compares temp register with register and sets flags
