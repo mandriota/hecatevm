@@ -102,8 +102,8 @@ void sub_asm(int argc, char *argv[]) {
 	printf("%zu <%zu:%zu>\t%d\t%d\t%s %d\n",
 		   parser.ptr, parser.row+1,parser.col,
 		   op, op&0xF, opcodes_stringify[op&0xF], op>>4);
-	dst_buf[dst_buf_ptr] = op;
 	#endif
+	dst_buf[dst_buf_ptr] = op;
 	
 	++dst_buf_ptr;
 	if (dst_buf_ptr >= sizeof dst_buf) {
