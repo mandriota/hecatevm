@@ -81,4 +81,4 @@ link bin/hcvm /usr/local/bin/hcvm
 hcvm asm -o factorial.hcvm factorial.asm
 hcvm factorial.hcvm
 ```
-(You can also use `hcvm run factorial` command)
+(You can also use `hcvm run factorial.hcvm` instead of `hcvm factorial.hcvm` command)
