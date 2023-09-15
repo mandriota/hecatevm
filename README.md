@@ -22,8 +22,6 @@ Tiny register-based bytecode VM written in C.
 | 0xF  | TPUT     | puts temp register value to stdout                        |
 
 ## Installation
-
-- Clone repo:
 ```sh
 # Clone and change directory to repo
 git clone https://github.com/mandriota/hecatevm
