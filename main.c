@@ -40,11 +40,13 @@ void sub_run(int argc, char *argv[]) {
   char *text;
   off_t sz = map4read(&text, argv[argc-1]);
 
+  if (sz == 0 || text[0] != '\xFF') fatal("incorrect signature");
+
   struct Machine mac;
 
   mac_init(&mac);
 
-  enum EXECUTION_RESULT er = mac_execute(&mac, text, sz);
+  enum EXECUTION_RESULT er = mac_execute(&mac, text+1, sz);
   switch (er) {
   case ER_OK:
 	break;
@@ -79,8 +81,8 @@ void sub_asm(int argc, char *argv[]) {
   }
 
   char src_buf[1<<14];
-  char dst_buf[1<<14];
-  int dst_buf_ptr = 0;
+  char dst_buf[1<<14] = {'\xFF'};
+  size_t dst_buf_ptr = 1;
 
   FILE * src_fs = fopen(argv[optind], "r");
   FILE * dst_fs = fopen(dst_filename, "w");
@@ -103,9 +105,8 @@ void sub_asm(int argc, char *argv[]) {
 		   parser.ptr, parser.row+1,parser.col,
 		   op, op&0xF, opcodes_stringify[op&0xF], op>>4);
 	#endif
-	dst_buf[dst_buf_ptr] = op;
+	dst_buf[dst_buf_ptr++] = op;
 	
-	++dst_buf_ptr;
 	if (dst_buf_ptr >= sizeof dst_buf) {
 	  n += fwrite(dst_buf, 1, sizeof dst_buf, dst_fs);
 	  dst_buf_ptr = 0;

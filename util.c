@@ -71,7 +71,7 @@ long long scan_num() {
   return n;
 }
 
-ssize_t to_string(char *restrict dst, size_t dst_sz, long long n) {
+ssize_t to_string(char *restrict dst, ssize_t dst_sz, long long n) {
   assert(dst && "dst must not be NULL");
   assert(dst_sz >= 2 && "dst size must be at least 2 byte");
 

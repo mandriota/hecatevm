@@ -1,5 +1,9 @@
+CC ?=
+CFLAGS := -Wall -Wextra -Werror
+
 build:
-	cc -std=c17 -o bin/hcvm main.c mac.c asm.c util.c
+	test -d "./bin" || mkdir bin
+	$(CC) $(CFLAGS) -o bin/hcvm main.c mac.c asm.c util.c
 
 run: build
 ifdef f
