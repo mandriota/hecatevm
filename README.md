@@ -47,12 +47,12 @@ link bin/hcvm /usr/local/bin/hcvm
     1.TSET.IMM
 
 	;; input n
-    1.SETT
-    0.TGET
+	1.SETT
+	0.TGET
 
 	;; i = 2
-    4.SETT
-    2.TSET.IMM
+	4.SETT
+	2.TSET.IMM
 
 	;; do
     2.SETT
