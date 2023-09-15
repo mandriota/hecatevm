@@ -36,10 +36,10 @@ link bin/hcvm /usr/local/bin/hcvm
 
 ## Example of Factorial
 ```asm
-    ;; ./examples/factorial.asm
+	;; ./examples/factorial.asm
 	
-    ;; r = 1
-    3.SETT
+	;; r = 1
+	3.SETT
 	1.TSET.IMM
 	
 	;; const.
